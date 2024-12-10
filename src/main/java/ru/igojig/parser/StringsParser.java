@@ -6,6 +6,10 @@ import ru.igojig.system.Strings;
 class StringsParser extends AbstractParser {
     @Override
     public ReadedObject parse(String str) {
-        return ReadedObject.builder().value(str).type(Strings.class).build();
+        return ReadedObject.builder()
+                .stringValue(str)
+                .obj(str)
+                .type(Strings.class)
+                .build();
     }
 }

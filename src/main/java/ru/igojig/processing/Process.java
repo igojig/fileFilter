@@ -8,6 +8,8 @@ import ru.igojig.exceptions.WriterOpenException;
 import ru.igojig.reader.DataReader;
 import ru.igojig.args.EffectiveParameters;
 import ru.igojig.parser.Parser;
+import ru.igojig.statistics.StatFactory;
+import ru.igojig.statistics.data.BaseStatData;
 import ru.igojig.writers.DataWriter;
 import ru.igojig.writers.WriterFactory;
 
@@ -66,10 +68,15 @@ public class Process {
                 continue;
             }
             dataReader.close();
+
         }
 
         // successfully write all data
         writerFactory.closeAll();
+
+        if(effectiveParameters.getShortStatistic()){
+
+        }
 
     }
 
@@ -77,12 +84,15 @@ public class Process {
 
         ReadedObject readedObject = parser.parse(line);
         dataWriter = writerFactory.getWriter(readedObject.getType());
-
         try {
             dataWriter.write(readedObject);
         } catch (DataWriteException e){
             log.error("Error write to {}, cause: {}", e.getBaseWriter().getPath(), e.getMessage());
             closeAllAndExit();
+        }
+
+        if(effectiveParameters.getFullStatistic() || effectiveParameters.getShortStatistic()){
+            StatFactory.getStat(readedObject.getType()).accumulate(readedObject);
         }
 
     }

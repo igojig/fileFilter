@@ -39,7 +39,7 @@ public class BaseWriter {
 
     protected void writeObject(ReadedObject readedObject) throws DataWriteException {
         try {
-            writer.write(readedObject.getValue());
+            writer.write(readedObject.getStringValue());
             writer.newLine();
         } catch (IOException e){
             throw new DataWriteException(this, e.getMessage());
