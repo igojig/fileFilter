@@ -27,12 +27,15 @@ public class DataReader {
     }
 
     public void close() {
-        try {
-            bufferedReader.close();
-        } catch (IOException e) {
-            log.error("Error closing reader {}, cause: {}", path, e.getMessage());
-            log.error("Continue");
+        if(bufferedReader!=null){
+            try {
+                bufferedReader.close();
+            } catch (IOException e) {
+                log.error("Error closing reader {}, cause: {}", path, e.getMessage());
+                log.error("Continue");
+            }
         }
+
     }
 
     public void read() throws IOException {

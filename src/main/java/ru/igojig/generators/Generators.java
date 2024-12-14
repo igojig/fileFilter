@@ -1,8 +1,7 @@
-package ru.igojig.tests;
+package ru.igojig.generators;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,7 +14,7 @@ public class Generators {
 
         try (BufferedWriter bufferedWriter= Files.newBufferedWriter(Path.of("tests.txt"), StandardCharsets.UTF_8)){
 
-            for(int i=0;i<10_000_000;i++){
+            for(int i=0;i<10;i++){
                 int rnd=ThreadLocalRandom.current().nextInt(3);
                 //integers
                 if(rnd==0){
@@ -25,7 +24,7 @@ public class Generators {
                 }
                 //floats
                 if(rnd==1){
-                    double v = ThreadLocalRandom.current().nextDouble();
+                    double v = ThreadLocalRandom.current().nextDouble(Double.MAX_VALUE);
                     bufferedWriter.write(String.valueOf(v));
                     bufferedWriter.newLine();
                 }

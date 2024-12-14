@@ -5,6 +5,7 @@ import ru.igojig.system.Floats;
 
 import java.math.BigDecimal;
 
+// second in chain
 class FloatsParser extends AbstractParser {
     @Override
     public ReadedObject parse(String str) {

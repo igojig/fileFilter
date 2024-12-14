@@ -6,13 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class BaseStatData {
-    protected Long count=0L;
+public class ShortStatData {
+    protected Long count = 0L;
 
-    public void incrementCount(){
+    public void incrementCount() {
         ++count;
     }
 }

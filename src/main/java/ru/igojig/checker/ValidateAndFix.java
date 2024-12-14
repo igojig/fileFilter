@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import ru.igojig.args.Arguments;
 import ru.igojig.args.DefaultValues;
 import ru.igojig.args.EffectiveParameters;
+import ru.igojig.args.StatisticType;
 import ru.igojig.system.OutputFilenames;
 
 import java.io.IOException;
@@ -22,33 +23,42 @@ public class ValidateAndFix {
         List<String> inputFileNames = arguments.getInputFileNames();
         List<Path> paths = new ArrayList<>();
 
-        inputFileNames.forEach(f->toPath(f).ifPresent(paths::add));
-        if(paths.isEmpty()){
+        inputFileNames.forEach(f -> toPath(f).ifPresent(paths::add));
+        if (paths.isEmpty()) {
             log.fatal("No input files can be proceeded. Exit.");
             System.exit(1);
         }
         effectiveParameters.setInputFilenames(paths);
 
-        String prefix= arguments.getOutputPrefix();
+        String prefix = arguments.getOutputPrefix();
 
-        if(!validatePrefix(prefix)){
-            prefix=fixPrefix(prefix);
+        if (!validatePrefix(prefix)) {
+            prefix = fixPrefix(prefix);
         }
 
-        String outputPath= arguments.getOutputPath();
+        String outputPath = arguments.getOutputPath();
         String validOutputPath = validateAndFixOutputPath(outputPath);
 
-        String stringOutputFilename= OutputFilenames.STRINGS.getFileName();
+        String stringOutputFilename = OutputFilenames.STRINGS.getFileName();
         String floatsOutputFilename = OutputFilenames.FLOATS.getFileName();
-        String integersOutputFilename =  OutputFilenames.INTEGERS.getFileName();
+        String integersOutputFilename = OutputFilenames.INTEGERS.getFileName();
 
-        effectiveParameters.setOutputStringPath(Path.of(validOutputPath , prefix +stringOutputFilename).normalize().toAbsolutePath());
-        effectiveParameters.setOutputFloatsPath(Path.of(validOutputPath , prefix +floatsOutputFilename).normalize().toAbsolutePath());
-        effectiveParameters.setOutputIntegesrPath(Path.of(validOutputPath , prefix +integersOutputFilename).normalize().toAbsolutePath());
+        effectiveParameters.setOutputStringPath(Path.of(validOutputPath, prefix + stringOutputFilename).normalize().toAbsolutePath());
+        effectiveParameters.setOutputFloatsPath(Path.of(validOutputPath, prefix + floatsOutputFilename).normalize().toAbsolutePath());
+        effectiveParameters.setOutputIntegesrPath(Path.of(validOutputPath, prefix + integersOutputFilename).normalize().toAbsolutePath());
 
-        effectiveParameters.setFullStatistic(arguments.getFullStatistic());
-        effectiveParameters.setShortStatistic(arguments.getShortStatistic());
+//        effectiveParameters.setFullStatistic(arguments.getFullStatistic());
+//        effectiveParameters.setShortStatistic(arguments.getShortStatistic());
         effectiveParameters.setAppend(arguments.getAppend());
+
+        // если указаны два флага, то тогда полная статистика
+        if (arguments.getFullStatistic()) {
+            effectiveParameters.setStatisticType(StatisticType.FULL);
+        } else if (arguments.getShortStatistic()) {
+            effectiveParameters.setStatisticType(StatisticType.SHORT);
+        } else {
+            effectiveParameters.setStatisticType(StatisticType.NONE);
+        }
 
 
     }
@@ -65,15 +75,15 @@ public class ValidateAndFix {
         }
     }
 
-    private static boolean validatePrefix(String prefix){
-        if(prefix==null){
+    private static boolean validatePrefix(String prefix) {
+        if (prefix == null) {
             return false;
         }
-     if(prefix.isEmpty()){
-         return true;
-     }
+        if (prefix.isEmpty()) {
+            return true;
+        }
 
-        if(!prefix.matches(REGEX_FILENAME_PATTERN)){
+        if (!prefix.matches(REGEX_FILENAME_PATTERN)) {
             log.error("Prefix contains invalid characters: {}", prefix);
             return false;
         }
@@ -81,18 +91,18 @@ public class ValidateAndFix {
         return true;
     }
 
-    private static String fixPrefix(String prefix){
+    private static String fixPrefix(String prefix) {
         log.warn("Prefix will set to default");
         return DefaultValues.DEFAULT_PREFIX.getDefaultValue();
     }
 
-    private static String validateAndFixOutputPath(String path){
+    private static String validateAndFixOutputPath(String path) {
         try {
-            Path currentDir=Path.of(".");
-            Path outputPath=Path.of(path).normalize();
+            Path currentDir = Path.of(".");
+            Path outputPath = Path.of(path).normalize();
             outputPath = currentDir.resolve(outputPath);
             return path;
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             log.error("Output path is invalid due to: {} \noutput path will set to default: {}",
                     e.getMessage(), DefaultValues.DEFAULT_PATH.getDefaultValue());
             return DefaultValues.DEFAULT_PATH.getDefaultValue();

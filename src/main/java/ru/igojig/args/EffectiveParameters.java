@@ -23,4 +23,6 @@ public class EffectiveParameters {
 
    private Boolean fullStatistic;
 
+   private StatisticType statisticType;
+
 }

@@ -15,7 +15,7 @@ import java.nio.file.Path;
 public class Main {
     public static void main(String[] args) throws IOException {
         log.info("Start");
-        args = new String[]{ "-a", "c:/tests.txt" };
+        args = new String[]{ "-a", "-s" , "tests.txt"};
 //        args = new String[]{"-o", "/*out", "-p", "pr\\ef_", "-a", "  "};
 //        args = new String[]{"-p", "pr\\}ef_", "-a", "in1.t", "in2.txt", "in3.txt"};
 

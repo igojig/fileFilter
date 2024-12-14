@@ -3,13 +3,13 @@ package ru.igojig.processing;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import ru.igojig.ReadedObject;
+import ru.igojig.args.StatisticType;
 import ru.igojig.exceptions.DataWriteException;
 import ru.igojig.exceptions.WriterOpenException;
 import ru.igojig.reader.DataReader;
 import ru.igojig.args.EffectiveParameters;
 import ru.igojig.parser.Parser;
 import ru.igojig.statistics.StatFactory;
-import ru.igojig.statistics.data.BaseStatData;
 import ru.igojig.writers.DataWriter;
 import ru.igojig.writers.WriterFactory;
 
@@ -32,6 +32,7 @@ public class Process {
 
     public Process(EffectiveParameters effectiveParameters) {
         this.effectiveParameters = effectiveParameters;
+        //TODO сделать Paths
         writerFactory.initFactory(effectiveParameters);
         try {
             writerFactory.openWriters();
@@ -74,9 +75,10 @@ public class Process {
         // successfully write all data
         writerFactory.closeAll();
 
-        if(effectiveParameters.getShortStatistic()){
 
-        }
+        //show stat data
+        StatFactory.showAll(effectiveParameters.getStatisticType());
+
 
     }
 
@@ -87,13 +89,14 @@ public class Process {
         try {
             dataWriter.write(readedObject);
         } catch (DataWriteException e){
-            log.error("Error write to {}, cause: {}", e.getBaseWriter().getPath(), e.getMessage());
+            log.fatal("Error write to {}, cause: {}", e.getBaseWriter().getPath(), e.getMessage());
             closeAllAndExit();
         }
 
-        if(effectiveParameters.getFullStatistic() || effectiveParameters.getShortStatistic()){
-            StatFactory.getStat(readedObject.getType()).accumulate(readedObject);
+        if(effectiveParameters.getStatisticType()!= StatisticType.NONE){
+            StatFactory.getStat(readedObject.getType(), effectiveParameters.getStatisticType()).accumulate(readedObject);
         }
+
 
     }
 
