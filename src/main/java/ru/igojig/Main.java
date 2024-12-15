@@ -5,7 +5,7 @@ import com.beust.jcommander.JCommander;
 import lombok.extern.log4j.Log4j2;
 import ru.igojig.args.Arguments;
 import ru.igojig.args.EffectiveParameters;
-import ru.igojig.checker.ValidateAndFix;
+import ru.igojig.args.processor.ArgsProcessor;
 import ru.igojig.processing.Process;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.nio.file.Path;
 public class Main {
     public static void main(String[] args) throws IOException {
         log.info("Start");
-        args = new String[]{ "-a", "-s" , "tests.txt"};
+        args = new String[]{ "-a", "-p", "prfx", "-o", "out" ,  "in1.t", "in2.txt", "in3.txt" , "-f"};
 //        args = new String[]{"-o", "/*out", "-p", "pr\\ef_", "-a", "  "};
 //        args = new String[]{"-p", "pr\\}ef_", "-a", "in1.t", "in2.txt", "in3.txt"};
 
@@ -31,7 +31,11 @@ public class Main {
 
         EffectiveParameters effectiveParameters=new EffectiveParameters();
 
-        ValidateAndFix.validateAndFix(commandLineArguments, effectiveParameters);
+//        ValidateAndFix.validateAndFix(commandLineArguments, effectiveParameters);
+
+        ArgsProcessor argsProcessor=new ArgsProcessor();
+        argsProcessor.process(commandLineArguments, effectiveParameters);
+
 
         System.out.println(effectiveParameters);
 

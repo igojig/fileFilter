@@ -2,7 +2,6 @@ package ru.igojig.statistics.impl;
 
 import ru.igojig.ReadedObject;
 import ru.igojig.statistics.Statistics;
-import ru.igojig.statistics.data.ShortStatData;
 import ru.igojig.statistics.data.IntegersFullStatData;
 
 import java.math.BigDecimal;
@@ -17,7 +16,7 @@ public class IntegersFullStatistics extends Statistics {
     @Override
     public void accumulate(ReadedObject readedObject) {
 
-        super.setUsed(true);
+        setUsed(true);
 
         BigInteger value=(BigInteger) readedObject.getObj();
 
@@ -48,7 +47,7 @@ public class IntegersFullStatistics extends Statistics {
     @Override
     public void show() {
 
-        if(isUsed()){
+
             BigDecimal avgBigDecimal = new BigDecimal(integersFullStatData.getSum())
                     .divide(BigDecimal.valueOf(integersFullStatData.getCount()), 4, RoundingMode.HALF_EVEN);
 
@@ -67,6 +66,6 @@ public class IntegersFullStatistics extends Statistics {
             );
 
             System.out.println(longStat);
-        }
+
     }
 }

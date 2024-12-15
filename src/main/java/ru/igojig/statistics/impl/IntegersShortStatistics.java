@@ -10,6 +10,7 @@ public class IntegersShortStatistics extends Statistics {
 
     @Override
     public void accumulate(ReadedObject readedObject) {
+        setUsed(true);
         shortStatData.incrementCount();
     }
 

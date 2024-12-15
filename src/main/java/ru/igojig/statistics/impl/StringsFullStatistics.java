@@ -11,7 +11,7 @@ public class StringsFullStatistics extends Statistics {
     @Override
     public void accumulate(ReadedObject readedObject) {
 
-        super.setUsed(true);
+        setUsed(true);
 
         String value=readedObject.getStringValue();
 
@@ -38,7 +38,7 @@ public class StringsFullStatistics extends Statistics {
 
     @Override
     public void show() {
-        if(isUsed()) {
+
             String longStat = """
                     Strings full statistics:
                      Elements: %s,
@@ -50,5 +50,5 @@ public class StringsFullStatistics extends Statistics {
             );
             System.out.println(longStat);
         }
-    }
+
 }

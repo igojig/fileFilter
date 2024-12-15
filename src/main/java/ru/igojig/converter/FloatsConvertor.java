@@ -1,4 +1,4 @@
-package ru.igojig.parser;
+package ru.igojig.converter;
 
 import ru.igojig.ReadedObject;
 import ru.igojig.system.Floats;
@@ -6,9 +6,9 @@ import ru.igojig.system.Floats;
 import java.math.BigDecimal;
 
 // second in chain
-class FloatsParser extends AbstractParser {
+class FloatsConvertor extends AbstractConvertor {
     @Override
-    public ReadedObject parse(String str) {
+    public ReadedObject convert(String str) {
         try {
             BigDecimal val = new BigDecimal(str);
             return ReadedObject.builder()
@@ -17,7 +17,7 @@ class FloatsParser extends AbstractParser {
                     .obj(val)
                     .build();
         } catch (NumberFormatException e) {
-            return next.parse(str);
+            return next.convert(str);
         }
     }
 }

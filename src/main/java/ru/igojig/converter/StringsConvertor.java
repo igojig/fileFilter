@@ -1,12 +1,12 @@
-package ru.igojig.parser;
+package ru.igojig.converter;
 
 import ru.igojig.ReadedObject;
 import ru.igojig.system.Strings;
 
 //final in chain
-class StringsParser extends AbstractParser {
+class StringsConvertor extends AbstractConvertor {
     @Override
-    public ReadedObject parse(String str) {
+    public ReadedObject convert(String str) {
         return ReadedObject.builder()
                 .stringValue(str)
                 .obj(str)

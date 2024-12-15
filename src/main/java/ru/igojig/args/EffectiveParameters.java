@@ -15,14 +15,6 @@ public class EffectiveParameters {
    private Path outputFloatsPath;
    private Path outputStringPath;
 
-
-
    private Boolean append;
-
-   private Boolean shortStatistic;
-
-   private Boolean fullStatistic;
-
    private StatisticType statisticType;
-
 }

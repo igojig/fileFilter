@@ -10,5 +10,4 @@ public class IntegersFullStatData extends ShortStatData {
     private BigInteger min;
     private BigInteger max;
     private BigInteger sum=BigInteger.ZERO;
-    private BigInteger average=BigInteger.ZERO;
 }

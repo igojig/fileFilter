@@ -1,4 +1,4 @@
-package ru.igojig.system;
+package ru.igojig.args;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

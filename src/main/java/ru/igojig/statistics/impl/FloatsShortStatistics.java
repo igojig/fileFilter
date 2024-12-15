@@ -11,6 +11,7 @@ public class FloatsShortStatistics extends Statistics {
 
     @Override
     public void accumulate(ReadedObject readedObject) {
+        setUsed(true);
         shortStatData.incrementCount();
     }
 

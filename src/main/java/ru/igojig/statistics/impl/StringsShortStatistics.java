@@ -6,11 +6,12 @@ import ru.igojig.statistics.data.ShortStatData;
 
 public class StringsShortStatistics extends Statistics {
 
-    private final ShortStatData shortStatData=new ShortStatData();
+    private final ShortStatData shortStatData = new ShortStatData();
 
     @Override
     public void accumulate(ReadedObject readedObject) {
-            shortStatData.incrementCount();
+        setUsed(true);
+        shortStatData.incrementCount();
     }
 
     @Override

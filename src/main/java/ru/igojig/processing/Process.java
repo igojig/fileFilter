@@ -3,13 +3,12 @@ package ru.igojig.processing;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import ru.igojig.ReadedObject;
-import ru.igojig.args.StatisticType;
 import ru.igojig.exceptions.DataWriteException;
 import ru.igojig.exceptions.WriterOpenException;
 import ru.igojig.reader.DataReader;
 import ru.igojig.args.EffectiveParameters;
-import ru.igojig.parser.Parser;
-import ru.igojig.statistics.StatFactory;
+import ru.igojig.converter.Convertor;
+import ru.igojig.statistics.StatisticFactory;
 import ru.igojig.writers.DataWriter;
 import ru.igojig.writers.WriterFactory;
 
@@ -26,7 +25,7 @@ public class Process {
     private DataReader dataReader;
     private DataWriter dataWriter;
 
-    private Parser parser = new Parser();
+    private Convertor convertor = new Convertor();
     private WriterFactory writerFactory = new WriterFactory();
 
 
@@ -77,33 +76,37 @@ public class Process {
 
 
         //show stat data
-        StatFactory.showAll(effectiveParameters.getStatisticType());
+        StatisticFactory.showAll(effectiveParameters.getStatisticType());
 
 
     }
 
     public void processLine(String line) {
+        ReadedObject readedObject = parse(line);
+        write(readedObject);
+        stat(readedObject);
+    }
 
-        ReadedObject readedObject = parser.parse(line);
+    private ReadedObject parse(String line) {
+        return convertor.convert(line);
+    }
+
+    private void write(ReadedObject readedObject) {
         dataWriter = writerFactory.getWriter(readedObject.getType());
         try {
             dataWriter.write(readedObject);
-        } catch (DataWriteException e){
+        } catch (DataWriteException e) {
             log.fatal("Error write to {}, cause: {}", e.getBaseWriter().getPath(), e.getMessage());
             closeAllAndExit();
         }
+    }
 
-        if(effectiveParameters.getStatisticType()!= StatisticType.NONE){
-            StatFactory.getStat(readedObject.getType(), effectiveParameters.getStatisticType()).accumulate(readedObject);
-        }
-
-
+    private void stat(ReadedObject readedObject) {
+        StatisticFactory.getStat(readedObject.getType(), effectiveParameters.getStatisticType()).accumulate(readedObject);
     }
 
 
-
-
-    private void closeAllAndExit(){
+    private void closeAllAndExit() {
         writerFactory.closeAll();
         dataReader.close();
         System.exit(2);

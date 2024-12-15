@@ -9,9 +9,10 @@ import ru.igojig.system.Strings;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StatFactory {
+public class StatisticFactory {
 
     private static final Map<Class<?>, Map<StatisticType, Statistics>> statMap = new HashMap<>();
+    private static final NullStatistics nullStatistic = new NullStatistics();
 
     static {
         Map<StatisticType, Statistics> floatsMap = Map.of(StatisticType.SHORT, new FloatsShortStatistics(),
@@ -28,13 +29,13 @@ public class StatFactory {
 
     public static Statistics getStat(Class<?> aClass, StatisticType statisticType) {
         Map<StatisticType, Statistics> statisticsMap = statMap.get(aClass);
-        Statistics statistics = statisticsMap.get(statisticType);
+        Statistics statistics = statisticsMap.getOrDefault(statisticType, nullStatistic);
         return statistics;
     }
 
     public static void showAll(StatisticType statisticType) {
-        if(statisticType!=StatisticType.NONE){
-            for (Map<StatisticType, Statistics> value : statMap.values()) {
+        for (Map<StatisticType, Statistics> value : statMap.values()) {
+            if (value.getOrDefault(statisticType, nullStatistic).isUsed) {
                 value.get(statisticType).show();
             }
         }

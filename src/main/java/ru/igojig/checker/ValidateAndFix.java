@@ -5,7 +5,7 @@ import ru.igojig.args.Arguments;
 import ru.igojig.args.DefaultValues;
 import ru.igojig.args.EffectiveParameters;
 import ru.igojig.args.StatisticType;
-import ru.igojig.system.OutputFilenames;
+import ru.igojig.args.OutputFilenames;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -100,7 +100,7 @@ public class ValidateAndFix {
         try {
             Path currentDir = Path.of(".");
             Path outputPath = Path.of(path).normalize();
-            outputPath = currentDir.resolve(outputPath);
+            outputPath = currentDir.resolve(outputPath).toAbsolutePath();
             return path;
         } catch (RuntimeException e) {
             log.error("Output path is invalid due to: {} \noutput path will set to default: {}",

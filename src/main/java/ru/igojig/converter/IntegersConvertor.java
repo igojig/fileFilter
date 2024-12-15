@@ -1,4 +1,4 @@
-package ru.igojig.parser;
+package ru.igojig.converter;
 
 import ru.igojig.ReadedObject;
 import ru.igojig.system.Integers;
@@ -6,9 +6,9 @@ import ru.igojig.system.Integers;
 import java.math.BigInteger;
 
 // First in chain
- class IntegersParser extends AbstractParser {
+ class IntegersConvertor extends AbstractConvertor {
     @Override
-    public ReadedObject parse(String str) {
+    public ReadedObject convert(String str) {
         try {
               BigInteger val=new BigInteger(str);
               return ReadedObject.builder()
@@ -17,7 +17,7 @@ import java.math.BigInteger;
                       .obj(val)
                       .build();
         } catch (NumberFormatException e) {
-            return next.parse(str);
+            return next.convert(str);
         }
     }
 }

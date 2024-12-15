@@ -2,22 +2,22 @@ package ru.igojig.reader;
 
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
-import ru.igojig.system.CustomConsumer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.Consumer;
 
 @Data
 @Log4j2
 public class DataReader {
     private final Path path;
-    private final CustomConsumer consumer;
+    private final Consumer<String> consumer;
     private BufferedReader bufferedReader;
 
-    public DataReader(Path path, CustomConsumer consumer) {
+    public DataReader(Path path, Consumer<String> consumer) {
         this.path = path;
         this.consumer = consumer;
     }
@@ -43,7 +43,7 @@ public class DataReader {
         String line;
         while ((line = bufferedReader.readLine()) != null) {
             // send for processing
-            consumer.consume(line);
+            consumer.accept(line);
         }
     }
 
