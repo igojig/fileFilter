@@ -12,61 +12,37 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <log4j2.version>2.12.4</log4j2.version>
+        <lombok.version>1.18.36</lombok.version>
+        <jcommander.version>2.0</jcommander.version>
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.jcommander/jcommander -->
-<!--        <dependency>-->
-<!--            <groupId>com.beust</groupId>-->
-<!--            <artifactId>jcommander</artifactId>-->
-<!--            <version>1.82</version>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>org.jcommander</groupId>
             <artifactId>jcommander</artifactId>
-            <version>2.0</version>
+            <version>${jcommander.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.36</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.12.4</version>
+            <version>${log4j2.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.12.4</version>
+            <version>${log4j2.version}</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate.validator</groupId>-->
-<!--            <artifactId>hibernate-validator</artifactId>-->
-<!--            <version>8.0.1.Final</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.glassfish.expressly</groupId>-->
-<!--            <artifactId>expressly</artifactId>-->
-<!--            <version>5.0.0</version>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework/spring-context &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-context</artifactId>-->
-<!--            <version>6.2.0</version>-->
-<!--        </dependency>-->
-
-
     </dependencies>
-
-
-
-
 </project>
