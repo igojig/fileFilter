@@ -21,7 +21,7 @@ import java.nio.file.StandardOpenOption;
 @Getter
 public abstract class AbstractWriter {
     /**
-     * Флаг указывающий, была ли осуществлена хоть одна запись.
+     * Флаг указывающий, была ли осуществлена хоть одна запись в файл
      */
     protected boolean isUsed;
     protected BufferedWriter writer;

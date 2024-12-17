@@ -9,5 +9,4 @@ public interface Integers extends DataType{
      * Имя файла для целочисленных типов данных
      */
     String filename="integers.txt";
-
 }
