@@ -18,11 +18,11 @@ class FloatsConvertor extends AbstractConvertor {
     @Override
     public ReadedObject convert(String str) {
         try {
-            BigDecimal val = new BigDecimal(str);
+            BigDecimal val=new BigDecimal(str);
             return ReadedObject.builder()
-                    .stringValue(str)
                     .type(Floats.class)
                     .obj(val)
+                    .stringValue(str)
                     .build();
         } catch (NumberFormatException e) {
             return next.convert(str);

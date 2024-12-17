@@ -1,6 +1,5 @@
 package ru.igojig.filefilter.processing;
 
-import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import ru.igojig.filefilter.args.ProgramArguments;
 import ru.igojig.filefilter.converter.Convertor;
@@ -17,13 +16,10 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
-@Log4j2
-
 /**
  * Класс для обработки файлов.
- * @author ghhjj
  */
+@Log4j2
 public class ProcessFiles {
     /**
      * Обработанные аргументы командной строки в виде удобном для работы программы
@@ -31,25 +27,22 @@ public class ProcessFiles {
     private final ProgramArguments programArguments;
 
     /**
-     *
+     * Объект для чтения входных данных
      */
     private DataReader dataReader;
-    private AbstractWriter abstractWriter;
-
-    private Convertor convertor = new Convertor();
-    private WriterFactory writerFactory = new WriterFactory();
 
     /**
      * Конструктор класса. Инициализирует фабрику {@link WriterFactory} именами файлов
      * для соответствующих типов данных.
      * Открывает файлы для записи с нужными параметрами, при ошибке программа завершается.
+     *
      * @param programArguments обработанные параметры командной строки {@link ru.igojig.filefilter.args.ProgramArguments}
      */
     public ProcessFiles(ProgramArguments programArguments) {
         this.programArguments = programArguments;
-        writerFactory.initFactory(programArguments.getOutputNamesToClassMap());
+        WriterFactory.initFactory(programArguments.getOutputNamesToClassMap());
         try {
-            writerFactory.openWriters(programArguments.getWriteOptions());
+            WriterFactory.openWriters(programArguments.getWriteOptions());
         } catch (WriterOpenException e) {
             log.error("Error open {}, cause: {}", e.getAbstractWriter().getPath(), e.getMessage());
             closeWritersAndExit();
@@ -91,18 +84,17 @@ public class ProcessFiles {
         }
 
         // все прошло успешно, закрываем Writers
-        writerFactory.closeAll();
+        WriterFactory.closeAll();
 
         // выводим статистику
         StatisticFactory.showAll(programArguments.getStatisticType());
         printFilesNames();
-        System.out.println("Done");
-
     }
 
     /**
      * Метод обрабатывает прочитанную строку.
      * Вызывается из {@link  DataReader#read()}
+     *
      * @param line прочитанная строка
      */
     public void processLine(String line) {
@@ -113,20 +105,22 @@ public class ProcessFiles {
 
     /**
      * Метод конвертирует строку в нужный тип данных, вызывая конверторы {@link Convertor#convert(String)}
+     *
      * @param line прочитанная из файла строка
      * @return сконвертированная в нужный тип данных строка в виде объекта {@link ReadedObject}
      */
     private ReadedObject convert(String line) {
-        return convertor.convert(line);
+        return Convertor.convert(line);
     }
 
     /**
      * Метод записывает строку в нужный файл в зависимости от типа данных.
      * При ошибке записи все открытые потоки закрываются, программа завершается.
+     *
      * @param readedObject сконвертированная в нужный тип данных строка в виде объекта {@link ReadedObject}
      */
     private void write(ReadedObject readedObject) {
-        abstractWriter = writerFactory.getWriter(readedObject.getType());
+        AbstractWriter abstractWriter = WriterFactory.getWriter(readedObject.getType());
         try {
             abstractWriter.write(readedObject);
         } catch (DataWriteException e) {
@@ -137,6 +131,7 @@ public class ProcessFiles {
 
     /**
      * Метод собирает статистику в зависимости от типа данных
+     *
      * @param readedObject сконвертированная в нужный тип данных строка в виде объекта {@link ReadedObject}
      */
     private void getStatistics(ReadedObject readedObject) {
@@ -148,7 +143,7 @@ public class ProcessFiles {
      * Метод закрывает все открытые потоки и завершает работу
      */
     private void closeAllAndExit() {
-        writerFactory.closeAll();
+        WriterFactory.closeAll();
         dataReader.close();
         System.exit(2);
     }
@@ -157,7 +152,7 @@ public class ProcessFiles {
      * Метод закрывает все потоки открытые для записи и завершает работу
      */
     private void closeWritersAndExit() {
-        writerFactory.closeAll();
+        WriterFactory.closeAll();
         System.exit(2);
     }
 
@@ -165,7 +160,7 @@ public class ProcessFiles {
      * Метод выводит список файлов, которые были созданы или обновлены
      */
     private void printFilesNames() {
-        List<Path> paths = writerFactory.getUsedPaths();
+        List<Path> paths = WriterFactory.getUsedPaths();
         String files = paths.stream()
                 .map(Path::toString)
                 .collect(Collectors.joining("\n"));

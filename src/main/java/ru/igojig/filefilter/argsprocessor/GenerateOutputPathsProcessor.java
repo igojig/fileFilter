@@ -20,9 +20,6 @@ public class GenerateOutputPathsProcessor extends AbstractProcessor {
      */
     @Override
     public void process(Arguments arguments, ProgramArguments programArguments) {
-//        String stringOutputFilename = Strings.filename;
-//        String floatsOutputFilename = Floats.filename;
-//        String integersOutputFilename = Integers.filename;
 
         String validOutputPath = arguments.getOutputPath();
         String validPrefix = arguments.getOutputPrefix();

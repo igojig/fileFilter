@@ -6,6 +6,9 @@ import ru.igojig.filefilter.writers.AbstractWriter;
 
 import java.nio.file.Path;
 
+/**
+ * Класс для записи целочисленных данных
+ */
 public class IntegersWriter extends AbstractWriter {
 
     public IntegersWriter(Path path) {
@@ -16,6 +19,5 @@ public class IntegersWriter extends AbstractWriter {
     public void write(ReadedObject readedObject) throws DataWriteException {
         isUsed = true;
         writeObject(readedObject);
-//        System.out.println("IntegersWriter " + readedObject);
     }
 }

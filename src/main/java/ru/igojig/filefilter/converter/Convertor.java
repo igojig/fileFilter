@@ -10,11 +10,11 @@ import ru.igojig.filefilter.system.Strings;
  */
 public class Convertor {
 
-    private final IntegersConvertor integersParser = new IntegersConvertor();
-    private final FloatsConvertor floatsParser = new FloatsConvertor();
-    private final StringsConvertor stringsParser = new StringsConvertor();
+    private final static IntegersConvertor integersParser = new IntegersConvertor();
+    private final static FloatsConvertor floatsParser = new FloatsConvertor();
+    private final static StringsConvertor stringsParser = new StringsConvertor();
 
-    {
+   static  {
         integersParser.setNext(floatsParser);
         floatsParser.setNext(stringsParser);
     }
@@ -30,7 +30,7 @@ public class Convertor {
      * @param str прочитанная из файлов строка
      * @return сконвертированная строка в нужный тип данных в виде объекта {@link ReadedObject}
      */
-    public ReadedObject convert(String str) {
+    public static ReadedObject convert(String str) {
         return integersParser.convert(str);
     }
 }

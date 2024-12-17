@@ -9,15 +9,15 @@ import ru.igojig.filefilter.args.ProgramArguments;
  * Порядок обработки имеет значение.
  */
 public class ArgsProcessor {
-    private final InputFilenamesProcessor inputFilenamesProcessor = new InputFilenamesProcessor();
-    private final OutputPathProcessor outputPathProcessor = new OutputPathProcessor();
-    private final OutputPrefixProcessor outputPrefixProcessor = new OutputPrefixProcessor();
-    private final GenerateOutputPathsProcessor generateOutputPathsProcessor =
+    private static final InputFilenamesProcessor inputFilenamesProcessor = new InputFilenamesProcessor();
+    private static final OutputPathProcessor outputPathProcessor = new OutputPathProcessor();
+    private static final OutputPrefixProcessor outputPrefixProcessor = new OutputPrefixProcessor();
+    private static final GenerateOutputPathsProcessor generateOutputPathsProcessor =
             new GenerateOutputPathsProcessor();
-    private final AppendFlagProcessor appendFlagProcessor = new AppendFlagProcessor();
-    private final StatisticsFlagProcessor statisticsFlagProcessor = new StatisticsFlagProcessor();
+    private static final AppendFlagProcessor appendFlagProcessor = new AppendFlagProcessor();
+    private static final StatisticsFlagProcessor statisticsFlagProcessor = new StatisticsFlagProcessor();
 
-    {
+    static {
         inputFilenamesProcessor.next = outputPathProcessor;
         outputPathProcessor.next = outputPrefixProcessor;
         outputPrefixProcessor.next = generateOutputPathsProcessor;
@@ -30,7 +30,7 @@ public class ArgsProcessor {
      * @param arguments аргументы командной строки, входящие данные. {@link ru.igojig.filefilter.args.Arguments}
      * @param programArguments обработанные аргументы для программы, исходящие данные {@link ru.igojig.filefilter.args.ProgramArguments}
      */
-    public void process(Arguments arguments, ProgramArguments programArguments) {
+    public static void process(Arguments arguments, ProgramArguments programArguments) {
         inputFilenamesProcessor.process(arguments, programArguments);
     }
 

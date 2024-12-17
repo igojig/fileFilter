@@ -14,8 +14,8 @@ public class WriterOpenException extends Exception {
 
     /**
      *
-     * @param abstractWriter
-     * @param message
+     * @param abstractWriter объект бросивший исключение
+     * @param message сообщение
      */
     public WriterOpenException(AbstractWriter abstractWriter, String message) {
         super(message);

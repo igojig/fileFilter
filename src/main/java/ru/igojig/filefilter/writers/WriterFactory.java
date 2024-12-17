@@ -1,6 +1,7 @@
 package ru.igojig.filefilter.writers;
 
 import ru.igojig.filefilter.exceptions.WriterOpenException;
+import ru.igojig.filefilter.processing.ProcessFiles;
 import ru.igojig.filefilter.system.DataType;
 import ru.igojig.filefilter.system.Floats;
 import ru.igojig.filefilter.system.Integers;
@@ -17,33 +18,59 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Фабрика классов для записи данных
+ */
 public class WriterFactory {
-    private final Map<Class<? extends DataType>, AbstractWriter> writersMap = new HashMap<>();
+    /**
+     * Карта соответствий типов данных и классов для записи
+     */
+    private final static Map<Class<? extends DataType>, AbstractWriter> writersMap = new HashMap<>();
 
-    public void initFactory(Map<Class<? extends DataType>, Path> filesMap) {
+    /**
+     * Инициализация фабрики путем сопоставления типа данных, класса для записи и имени файла для этого класса
+     * @param filesMap Карта соответствия типа данных (текстовый {@link Strings},
+     *      целочисленный {@link Integers},
+     *      вещественные числа {@link  Floats}) и имен выходных файлов.
+     *      {@link ProcessFiles}
+     */
+    public static void initFactory(Map<Class<? extends DataType>, Path> filesMap) {
         writersMap.put(Floats.class, new FloatsWriter(filesMap.get(Floats.class)));
         writersMap.put(Integers.class, new IntegersWriter(filesMap.get(Integers.class)));
         writersMap.put(Strings.class, new StringsWriter(filesMap.get(Strings.class)));
     }
 
-    public AbstractWriter getWriter(Class<? extends DataType> aClass) {
+    /**
+     * Возвращает класс для записи
+     * @param aClass тип данных
+     * @return класс для записи
+     */
+    public static AbstractWriter getWriter(Class<? extends DataType> aClass) {
         return writersMap.getOrDefault(aClass, new UnsupportedWriter());
     }
 
-    public void closeAll() {
+    /**
+     * Закрывает все потоки открытые для записи
+     */
+    public static void closeAll() {
         for (AbstractWriter writer : writersMap.values()) {
             writer.close();
         }
     }
 
-    public List<Path> getUsedPaths() {
+    /**
+     * Возвращает список файлов, которые были действительно использованы для записи,
+     * т.е. файлы, в которые хоть раз произошла запись.
+     * @return
+     */
+    public static List<Path> getUsedPaths() {
         return writersMap.values().stream()
                 .filter(AbstractWriter::isUsed)
                 .map(AbstractWriter::getPath)
                 .toList();
     }
 
-    public void openWriters(StandardOpenOption... writeOptions) throws WriterOpenException {
+    public static void openWriters(StandardOpenOption... writeOptions) throws WriterOpenException {
         for (AbstractWriter writer : writersMap.values()) {
             try {
                 writer.open(writeOptions);

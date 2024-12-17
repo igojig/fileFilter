@@ -6,6 +6,9 @@ import ru.igojig.filefilter.writers.AbstractWriter;
 
 import java.nio.file.Path;
 
+/**
+ * Класс для записи вещественных данных
+ */
 public class FloatsWriter extends AbstractWriter {
 
     public FloatsWriter(Path path) {
@@ -16,6 +19,5 @@ public class FloatsWriter extends AbstractWriter {
     public void write(ReadedObject readedObject) throws DataWriteException {
         isUsed = true;
         writeObject(readedObject);
-//        System.out.println("FloatsWriter: " + readedObject);
     }
 }

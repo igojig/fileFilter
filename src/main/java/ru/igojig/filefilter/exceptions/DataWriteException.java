@@ -13,8 +13,8 @@ public class DataWriteException extends Exception {
 
     /**
      *
-     * @param abstractWriter
-     * @param message
+     * @param abstractWriter объект бросивший исключение
+     * @param message сообщение
      */
     public DataWriteException(AbstractWriter abstractWriter, String message) {
         super(message);

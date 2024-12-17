@@ -15,34 +15,40 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
         log.trace("Start");
-        args = new String[]{"-p", "prfx_xx", "-o", "outs", "tests.txt", "-f"};
+        args = new String[]{"-p", "prfx_xx", "in1.txt",  "in2.txt", "in3.txt", "-f",};
 //        args = new String[]{"-o", "/*out", "-p", "pr\\ef_", "-a", "  "};
 //        args = new String[]{"-p", "pr\\}ef_", "-a", "in1.t", "in2.txt", "in3.txt"};
 //        args = new String[]{"--help"};
 
         Arguments commandLineArguments = new Arguments();
 
+        // парсим аргументы командной строки
         JCommander jc = JCommander.newBuilder().addObject(commandLineArguments).build();
         try {
             jc.parse(args);
         } catch (ParameterException e) {
+            log.error("Command line arguments error: {}", e.getMessage());
             e.usage();
         }
+        // если указана команда '--help', то выводим помощь
         if(commandLineArguments.isHelp()){
             jc.usage();
             System.exit(0);
         }
 
-        log.trace(commandLineArguments);
+        log.trace("Command line args: {}", commandLineArguments);
         ProgramArguments programArguments = new ProgramArguments();
 
-        ArgsProcessor argsProcessor = new ArgsProcessor();
-        argsProcessor.process(commandLineArguments, programArguments);
+        // преобразуем аргументы командной строки
+        // в нужную нам форму
+        ArgsProcessor.process(commandLineArguments, programArguments);
 
         log.trace(programArguments);
 
+        // запускаем процесс обработки файлов
         ProcessFiles processFiles = new ProcessFiles(programArguments);
         processFiles.process();
-
+        System.out.println("Done.");
+        log.trace("End");
     }
 }
