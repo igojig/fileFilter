@@ -167,8 +167,8 @@ public class ProcessFiles {
 
         String message = """
                 File(s):
-                 %s
-                 %s
+                %s
+                %s
                 """.formatted(files, programArguments.getDoneMessage());
 
         System.out.println(message);
