@@ -16,7 +16,7 @@ public class Generators {
 
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(Path.of("tests.txt"), StandardCharsets.UTF_8)) {
 
-            for (int i = 0; i < 50; i++) {
+            for (int i = 0; i < 500_000_000; i++) {
                 int rnd = ThreadLocalRandom.current().nextInt(3);
                 //integers
                 if (rnd == 0) {
