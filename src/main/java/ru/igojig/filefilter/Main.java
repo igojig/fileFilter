@@ -17,7 +17,10 @@ public class Main {
         Arguments commandLineArguments = new Arguments();
 
         // парсим аргументы командной строки
-        JCommander jc = JCommander.newBuilder().addObject(commandLineArguments).build();
+        JCommander jc = JCommander.newBuilder()
+                .addObject(commandLineArguments)
+                .programName("file-filter.jar")
+                .build();
         try {
             jc.parse(args);
         } catch (ParameterException e) {
