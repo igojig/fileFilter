@@ -1,17 +1,20 @@
 package ru.igojig.filefilter.statistics.impl;
 
 import ru.igojig.filefilter.statistics.Statistics;
-import ru.igojig.filefilter.statistics.data.ShortStatData;
 import ru.igojig.filefilter.system.ReadedObject;
 
+/**
+ * Класс для представления краткой статистики для целочисленного типа данных
+ */
 public class IntegersShortStatistics extends Statistics {
 
-    private final ShortStatData shortStatData = new ShortStatData();
-
+    /**
+     * Метод собирает краткую статистику для целочисленного типа данных
+     * @param readedObject сконвертированная в целочисленный тип данных строка в виде объекта {@link ReadedObject}
+     */
     @Override
     public void accumulate(ReadedObject readedObject) {
-        setUsed(true);
-        shortStatData.incrementCount();
+        incrementCount();
     }
 
     @Override
@@ -19,7 +22,7 @@ public class IntegersShortStatistics extends Statistics {
         String stat = """
                 Integers short statistics:
                  Elements: %s
-                """.formatted(shortStatData.getCount());
+                """.formatted(count);
         System.out.println(stat);
     }
 }

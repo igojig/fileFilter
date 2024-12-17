@@ -1,32 +1,30 @@
 package ru.igojig.filefilter.statistics.impl;
 
 import ru.igojig.filefilter.statistics.Statistics;
-import ru.igojig.filefilter.statistics.data.ShortStatData;
 import ru.igojig.filefilter.system.ReadedObject;
 
 /**
- * Класс собирает краткую статистику для вещественного типа данных
+ * Класс для представления краткой статистики для вещественного типа данных
  */
 public class FloatsShortStatistics extends Statistics {
-
     /**
-     * Данные для краткой статистики
+     * Метод собирает краткую статистику для вещественного типа данных
+     * @param readedObject сконвертированная в вещественный тип данных строка в виде объекта {@link ReadedObject}
      */
-    private final ShortStatData shortStatData = new ShortStatData();
-
-
     @Override
     public void accumulate(ReadedObject readedObject) {
-        setUsed(true);
-        shortStatData.incrementCount();
+        incrementCount();
     }
 
+    /**
+     * Метод выводит краткую статистику для вещественного типа данных
+     */
     @Override
     public void show() {
         String stat = """
                 Floats short statistics:
                  Elements: %s
-                """.formatted(shortStatData.getCount());
+                """.formatted(count);
         System.out.println(stat);
     }
 }

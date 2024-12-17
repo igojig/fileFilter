@@ -1,55 +1,53 @@
 package ru.igojig.filefilter.statistics.impl;
 
 import ru.igojig.filefilter.statistics.Statistics;
-import ru.igojig.filefilter.statistics.data.IntegersFullStatData;
 import ru.igojig.filefilter.system.ReadedObject;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
+/**
+ * Класс для представления полной статистики для целочисленного типа данных
+ */
 public class IntegersFullStatistics extends Statistics {
 
-    private final IntegersFullStatData integersFullStatData = new IntegersFullStatData();
+    private BigInteger min;
+    private BigInteger max;
+    private BigInteger sum = BigInteger.ZERO;
 
-
+    /**
+     * Метод собирает полную статистику для целочисленного типа данных
+     * @param readedObject сконвертированная в целочисленный тип данных строка в виде объекта {@link ReadedObject}
+     */
     @Override
     public void accumulate(ReadedObject readedObject) {
-
-        setUsed(true);
-
         BigInteger value = (BigInteger) readedObject.getObj();
+        incrementCount();
 
-        integersFullStatData.incrementCount();
-
-        BigInteger min = integersFullStatData.getMin();
         if (min == null) {
             min = value;
         } else {
             min = min.min(value);
         }
-        integersFullStatData.setMin(min);
 
-        BigInteger max = integersFullStatData.getMax();
         if (max == null) {
             max = value;
         } else {
             max = max.max(value);
         }
-        integersFullStatData.setMax(max);
 
-        BigInteger sum = integersFullStatData.getSum();
         sum = sum.add(value);
-        integersFullStatData.setSum(sum);
     }
 
-
+    /**
+     * Метод выводит полную статистику для целочисленного типа данных
+     */
     @Override
     public void show() {
 
-
-        BigDecimal avgBigDecimal = new BigDecimal(integersFullStatData.getSum())
-                .divide(BigDecimal.valueOf(integersFullStatData.getCount()), 8, RoundingMode.HALF_EVEN);
+        BigDecimal avgBigDecimal = new BigDecimal(sum)
+                .divide(BigDecimal.valueOf(count), 8, RoundingMode.HALF_EVEN);
 
         String longStat = """
                 Integers full statistics:
@@ -58,12 +56,11 @@ public class IntegersFullStatistics extends Statistics {
                  Max: %s
                  Sum: %s
                  Avg: %s
-                """.formatted(integersFullStatData.getCount(),
-                integersFullStatData.getMin().toString(),
-                integersFullStatData.getMax().toString(),
-                integersFullStatData.getSum().toString(),
-                avgBigDecimal.toPlainString()
-        );
+                """.formatted(count,
+                min,
+                max,
+                sum,
+                avgBigDecimal);
 
         System.out.println(longStat);
 

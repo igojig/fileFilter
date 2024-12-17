@@ -20,14 +20,14 @@ public class Arguments {
     private List<String> inputFileNames = new ArrayList<>();
 
     /**
-     * Префикс для выходных файлов {@link OutputFilenames},
+     * Префикс для выходных файлов,
      * значения по умолчанию {@link DefaultValues#DEFAULT_PREFIX}
      */
     @Parameter(names = "-p", arity = 1, description = "prefix for output files", defaultValueDescription = "no prefix", order = 1)
     private String outputPrefix = DefaultValues.DEFAULT_PREFIX.getDefaultValue();
 
     /**
-     * Путь для записи файлов {@link OutputFilenames},
+     * Путь для записи файлов,
      * значения по умолчанию {@link DefaultValues#DEFAULT_PATH}
      */
     @Parameter(names = "-o", arity = 1, description = "output path", defaultValueDescription = "current folder", order = 2)

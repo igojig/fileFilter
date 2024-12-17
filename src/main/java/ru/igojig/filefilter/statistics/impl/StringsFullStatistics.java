@@ -1,41 +1,43 @@
 package ru.igojig.filefilter.statistics.impl;
 
 import ru.igojig.filefilter.statistics.Statistics;
-import ru.igojig.filefilter.statistics.data.StringsFullStatData;
 import ru.igojig.filefilter.system.ReadedObject;
 
+/**
+ * Класс представляет полную статистику по строковому типу данных
+ */
 public class StringsFullStatistics extends Statistics {
 
-    private final StringsFullStatData stringsFullStatData = new StringsFullStatData();
+    private Integer minLength;
+    private Integer maxLength;
 
+    /**
+     * Метод собирает полную статистику для строкового типа данных
+     * @param readedObject сконвертированная в строковый тип данных строка в виде объекта {@link ReadedObject}
+     */
     @Override
     public void accumulate(ReadedObject readedObject) {
 
-        setUsed(true);
-
         String value = readedObject.getStringValue();
 
-        stringsFullStatData.incrementCount();
+        incrementCount();
 
-        Integer min = stringsFullStatData.getMinLength();
-        if (min == null) {
-            min = value.length();
+        if (minLength == null) {
+            minLength = value.length();
         } else {
-            min = Math.min(min, value.length());
+            minLength = Math.min(minLength, value.length());
         }
-        stringsFullStatData.setMinLength(min);
 
-        Integer max = stringsFullStatData.getMaxLength();
-        if (max == null) {
-            max = value.length();
+        if (maxLength == null) {
+            maxLength = value.length();
         } else {
-            max = Math.max(max, value.length());
+            maxLength = Math.max(maxLength, value.length());
         }
-        stringsFullStatData.setMaxLength(max);
-
     }
 
-
+    /**
+     * Метод выводит полную статистику по строковому типу данных
+     */
     @Override
     public void show() {
 
@@ -44,10 +46,10 @@ public class StringsFullStatistics extends Statistics {
                  Elements: %s,
                  Shortest length: %s,
                  Longest length: %s
-                """.formatted(stringsFullStatData.getCount(),
-                stringsFullStatData.getMinLength(),
-                stringsFullStatData.getMaxLength()
-        );
+                """.formatted(count,
+                minLength,
+                maxLength);
+
         System.out.println(longStat);
     }
 

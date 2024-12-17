@@ -15,7 +15,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
         log.trace("Start");
-        args = new String[]{"-p", "prfx_xx", "-o", "outs", "tests.txt", "-f", "--help"};
+        args = new String[]{"-p", "prfx_xx", "-o", "outs", "tests.txt", "-f"};
 //        args = new String[]{"-o", "/*out", "-p", "pr\\ef_", "-a", "  "};
 //        args = new String[]{"-p", "pr\\}ef_", "-a", "in1.t", "in2.txt", "in3.txt"};
 //        args = new String[]{"--help"};

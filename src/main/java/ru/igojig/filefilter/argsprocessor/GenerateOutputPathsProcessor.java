@@ -1,7 +1,6 @@
 package ru.igojig.filefilter.argsprocessor;
 
 import ru.igojig.filefilter.args.Arguments;
-import ru.igojig.filefilter.args.OutputFilenames;
 import ru.igojig.filefilter.args.ProgramArguments;
 import ru.igojig.filefilter.system.Floats;
 import ru.igojig.filefilter.system.Integers;
@@ -21,23 +20,23 @@ public class GenerateOutputPathsProcessor extends AbstractProcessor {
      */
     @Override
     public void process(Arguments arguments, ProgramArguments programArguments) {
-        String stringOutputFilename = OutputFilenames.STRINGS.getFileName();
-        String floatsOutputFilename = OutputFilenames.FLOATS.getFileName();
-        String integersOutputFilename = OutputFilenames.INTEGERS.getFileName();
+//        String stringOutputFilename = Strings.filename;
+//        String floatsOutputFilename = Floats.filename;
+//        String integersOutputFilename = Integers.filename;
 
         String validOutputPath = arguments.getOutputPath();
         String validPrefix = arguments.getOutputPrefix();
 
         programArguments.getOutputNamesToClassMap().put(Integers.class,
-                Path.of(validOutputPath, validPrefix + integersOutputFilename)
+                Path.of(validOutputPath, validPrefix + Integers.filename)
                         .normalize()
                         .toAbsolutePath());
         programArguments.getOutputNamesToClassMap().put(Floats.class,
-                Path.of(validOutputPath, validPrefix + floatsOutputFilename)
+                Path.of(validOutputPath, validPrefix + Floats.filename)
                         .normalize()
                         .toAbsolutePath());
         programArguments.getOutputNamesToClassMap().put(Strings.class,
-                Path.of(validOutputPath, validPrefix + stringOutputFilename)
+                Path.of(validOutputPath, validPrefix + Strings.filename)
                         .normalize()
                         .toAbsolutePath());
 

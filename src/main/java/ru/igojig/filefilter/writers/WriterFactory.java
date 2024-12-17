@@ -1,6 +1,7 @@
 package ru.igojig.filefilter.writers;
 
 import ru.igojig.filefilter.exceptions.WriterOpenException;
+import ru.igojig.filefilter.system.DataType;
 import ru.igojig.filefilter.system.Floats;
 import ru.igojig.filefilter.system.Integers;
 import ru.igojig.filefilter.system.Strings;
@@ -17,15 +18,15 @@ import java.util.List;
 import java.util.Map;
 
 public class WriterFactory {
-    private final Map<Class<?>, AbstractWriter> writersMap = new HashMap<>();
+    private final Map<Class<? extends DataType>, AbstractWriter> writersMap = new HashMap<>();
 
-    public void initFactory(Map<Class<?>, Path> filesMap) {
+    public void initFactory(Map<Class<? extends DataType>, Path> filesMap) {
         writersMap.put(Floats.class, new FloatsWriter(filesMap.get(Floats.class)));
         writersMap.put(Integers.class, new IntegersWriter(filesMap.get(Integers.class)));
         writersMap.put(Strings.class, new StringsWriter(filesMap.get(Strings.class)));
     }
 
-    public AbstractWriter getWriter(Class<?> aClass) {
+    public AbstractWriter getWriter(Class<? extends DataType> aClass) {
         return writersMap.getOrDefault(aClass, new UnsupportedWriter());
     }
 

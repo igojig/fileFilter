@@ -2,6 +2,7 @@ package ru.igojig.filefilter.args;
 
 import lombok.Data;
 import ru.igojig.filefilter.argsprocessor.ArgsProcessor;
+import ru.igojig.filefilter.system.DataType;
 import ru.igojig.filefilter.system.Floats;
 import ru.igojig.filefilter.system.Integers;
 import ru.igojig.filefilter.system.Strings;
@@ -38,8 +39,9 @@ public class ProgramArguments {
      * Карта соответствия типа данных (текстовый {@link Strings},
      * целочисленный {@link Integers},
      * вещественные числа {@link  Floats}) и имен выходных файлов.
+     * {@link ru.igojig.filefilter.argsprocessor.GenerateOutputPathsProcessor}
      */
-    private Map<Class<?>, Path> outputNamesToClassMap = new HashMap<>();
+    private Map<Class<? extends DataType>, Path> outputNamesToClassMap = new HashMap<>();
 
     /**
      * Сообщение при успешном завершении программы
