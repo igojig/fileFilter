@@ -1,7 +1,7 @@
 package ru.igojig.filefilter.writers;
 
-import ru.igojig.filefilter.exceptions.WriterOpenException;
-import ru.igojig.filefilter.processing.ProcessFiles;
+import ru.igojig.filefilter.exceptions.FileFilterIOException;
+import ru.igojig.filefilter.fileprocessing.ReadDataProcessor;
 import ru.igojig.filefilter.system.DataType;
 import ru.igojig.filefilter.system.Floats;
 import ru.igojig.filefilter.system.Integers;
@@ -32,7 +32,7 @@ public class WriterFactory {
      * @param filesMap Карта соответствия типа данных (текстовый {@link Strings},
      *      целочисленный {@link Integers},
      *      вещественные числа {@link  Floats}) и имен выходных файлов.
-     *      {@link ProcessFiles}
+     *      {@link ReadDataProcessor}
      */
     public static void initFactory(Map<Class<? extends DataType>, Path> filesMap) {
         writersMap.put(Floats.class, new FloatsWriter(filesMap.get(Floats.class)));
@@ -70,12 +70,12 @@ public class WriterFactory {
                 .toList();
     }
 
-    public static void openWriters(StandardOpenOption... writeOptions) throws WriterOpenException {
+    public static void openWriters(StandardOpenOption... writeOptions) throws FileFilterIOException {
         for (AbstractWriter writer : writersMap.values()) {
             try {
                 writer.open(writeOptions);
             } catch (IOException e) {
-                throw new WriterOpenException(writer, e.getMessage());
+                throw new FileFilterIOException(writer, e.getMessage());
             }
         }
     }

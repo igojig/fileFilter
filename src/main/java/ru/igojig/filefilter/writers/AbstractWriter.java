@@ -3,7 +3,7 @@ package ru.igojig.filefilter.writers;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import ru.igojig.filefilter.exceptions.DataWriteException;
+import ru.igojig.filefilter.exceptions.FileFilterIOException;
 import ru.igojig.filefilter.system.ReadedObject;
 
 import java.io.BufferedWriter;
@@ -33,9 +33,9 @@ public abstract class AbstractWriter {
     /**
      * Метод записывает данные в файл
      * @param readedObject сконвертированная в нужный тип данных строка в виде объекта {@link ReadedObject}
-     * @throws DataWriteException при ошибке записи выбрасывается {@link ru.igojig.filefilter.exceptions.DataWriteException}
+     * @throws FileFilterIOException при ошибке записи выбрасывается {@link ru.igojig.filefilter.exceptions.FileFilterIOException}
      */
-    public abstract void write(ReadedObject readedObject) throws DataWriteException;
+    public abstract void write(ReadedObject readedObject) throws FileFilterIOException;
 
     /**
      * Открывает поток для записи
@@ -64,14 +64,14 @@ public abstract class AbstractWriter {
      * Классы-наследники могут использовать этот метод или переопределенный метод {@link #write(ReadedObject)}
      * для реализации дополнительной логики
      * @param readedObject сконвертированная в нужный тип данных строка в виде объекта {@link ReadedObject}
-     * @throws DataWriteException при ошибке записи
+     * @throws FileFilterIOException при ошибке записи
      */
-    protected void writeObject(ReadedObject readedObject) throws DataWriteException {
+    protected void writeObject(ReadedObject readedObject) throws FileFilterIOException {
         try {
             writer.write(readedObject.getStringValue());
             writer.newLine();
         } catch (IOException e) {
-            throw new DataWriteException(this, e.getMessage());
+            throw new FileFilterIOException(this, e.getMessage());
         }
     }
 }

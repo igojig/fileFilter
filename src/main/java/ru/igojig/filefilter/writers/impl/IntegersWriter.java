@@ -1,6 +1,6 @@
 package ru.igojig.filefilter.writers.impl;
 
-import ru.igojig.filefilter.exceptions.DataWriteException;
+import ru.igojig.filefilter.exceptions.FileFilterIOException;
 import ru.igojig.filefilter.system.ReadedObject;
 import ru.igojig.filefilter.writers.AbstractWriter;
 
@@ -16,7 +16,7 @@ public class IntegersWriter extends AbstractWriter {
     }
 
     @Override
-    public void write(ReadedObject readedObject) throws DataWriteException {
+    public void write(ReadedObject readedObject) throws FileFilterIOException {
         isUsed = true;
         writeObject(readedObject);
     }

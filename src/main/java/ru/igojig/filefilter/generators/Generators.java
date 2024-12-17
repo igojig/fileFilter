@@ -16,7 +16,7 @@ public class Generators {
 
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(Path.of("tests.txt"), StandardCharsets.UTF_8)) {
 
-            for (int i = 0; i < 500_000_000; i++) {
+            for (int i = 0; i < 100; i++) {
                 int rnd = ThreadLocalRandom.current().nextInt(3);
                 //integers
                 if (rnd == 0) {
@@ -26,7 +26,7 @@ public class Generators {
                 }
                 //floats
                 if (rnd == 1) {
-                    double v = ThreadLocalRandom.current().nextDouble();
+                    double v = ThreadLocalRandom.current().nextFloat(Float.MAX_VALUE);
                     bufferedWriter.write(String.valueOf(v));
                     bufferedWriter.newLine();
                 }

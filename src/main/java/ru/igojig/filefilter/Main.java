@@ -7,7 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import ru.igojig.filefilter.args.Arguments;
 import ru.igojig.filefilter.args.ProgramArguments;
 import ru.igojig.filefilter.argsprocessor.ArgsProcessor;
-import ru.igojig.filefilter.processing.ProcessFiles;
+import ru.igojig.filefilter.fileprocessing.DataProcessor;
 
 @Log4j2
 public class Main {
@@ -40,8 +40,8 @@ public class Main {
         log.trace(programArguments);
 
         // запускаем процесс обработки файлов
-        ProcessFiles processFiles = new ProcessFiles(programArguments);
-        processFiles.process();
+        DataProcessor dataProcessor=new DataProcessor(programArguments);
+        dataProcessor.start();
         System.out.println("Done.");
         log.trace("End");
     }

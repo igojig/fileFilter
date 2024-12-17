@@ -3,14 +3,15 @@ package ru.igojig.filefilter.reader;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import ru.igojig.filefilter.args.ProgramArguments;
-import ru.igojig.filefilter.processing.ProcessFiles;
+import ru.igojig.filefilter.exceptions.FileFilterIOException;
+import ru.igojig.filefilter.fileprocessing.ReadDataProcessor;
+import ru.igojig.filefilter.system.DataConsumer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.function.Consumer;
 
 
 /**
@@ -27,15 +28,15 @@ public class DataReader {
     /**
      * Потребитель, который будет обрабатывать строку
      */
-    private final Consumer<String> consumer;
+    private final DataConsumer<String> consumer;
     private BufferedReader bufferedReader;
 
     /**
      *
      * @param path входной файл {@link ProgramArguments#inputFilenames}
-     * @param consumer потребитель данных для обработки строки - {@link ProcessFiles#processLine(String)}
+     * @param consumer потребитель данных для обработки строки - {@link ReadDataProcessor#processLine(String)}
      */
-    public DataReader(Path path, Consumer<String> consumer) {
+    public DataReader(Path path, DataConsumer<String> consumer) {
         this.path = path;
         this.consumer = consumer;
     }
@@ -61,10 +62,10 @@ public class DataReader {
      * Читает строки из файла и отдает потребителю {@code consumer}
      * @throws IOException при ошибке чтения пробрасывает исключение
      */
-    public void read() throws IOException {
+    public void read() throws IOException, FileFilterIOException {
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-            // send for processing
+            // send for fileprocessing
             consumer.accept(line);
         }
     }
